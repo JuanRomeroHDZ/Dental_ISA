@@ -2,9 +2,11 @@
   "name": "dental-isa-web",
   "version": "1.0.0",
   "description": "Sitio web oficial y página de conversión para la clínica Dental ISA en Tijuana, B.C.",
+  "main": "server.js",
   "scripts": {
-    "start": "npx serve -l 3000 .",
-    "dev": "npx serve -l 3000 ."
+    "start": "node server.js",
+    "dev": "node server.js",
+    "serve": "npx serve -l 3000 ."
   },
   "keywords": [
     "dental-isa",

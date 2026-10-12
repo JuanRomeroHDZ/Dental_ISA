@@ -1,0 +1,10 @@
+{
+  "public": ".",
+  "cleanUrls": true,
+  "directoryListing": false,
+  "rewrites": [],
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": ".*", "dest": "/404.html", "status": 404 }
+  ]
+}

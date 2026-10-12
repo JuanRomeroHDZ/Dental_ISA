@@ -66,17 +66,96 @@
     </nav>
   </header>
 
-  <!-- Mobile Navigation Overlay (B7 Fluid Modal Expansion) -->
+  <!-- Mobile Navigation Overlay (Refined Glass Sheet with Style & Personality) -->
   <div class="mobile-nav-overlay" id="mobile-nav-overlay" aria-hidden="true">
-    <ul class="mobile-nav-links">
-      <li><a href="#inicio" class="mobile-nav-link">Inicio</a></li>
-      <li><a href="#nosotros" class="mobile-nav-link">Nosotros</a></li>
-      <li><a href="#servicios" class="mobile-nav-link">Servicios</a></li>
-      <li><a href="#opiniones" class="mobile-nav-link">Reseñas</a></li>
-      <li><a href="#ubicacion" class="mobile-nav-link">Ubicación y contacto</a></li>
-      <li><a href="#preguntas" class="mobile-nav-link">Preguntas frecuentes</a></li>
-      <li><a href="#agendar" class="btn btn-accent" style="margin-top: 16px;">Agendar cita</a></li>
-    </ul>
+    <div class="mobile-nav-card">
+      <div class="mobile-nav-header">
+        <div class="mobile-nav-brand">
+          <img src="assets/images/logo.jpg" alt="Logotipo Dental ISA" class="mobile-nav-logo">
+          <div>
+            <span class="mobile-nav-title">Dental ISA</span>
+            <span class="mobile-nav-subtitle">Clínica en Tijuana, B.C.</span>
+          </div>
+        </div>
+        <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Cerrar menú">&times;</button>
+      </div>
+
+      <nav class="mobile-nav-body">
+        <ul class="mobile-nav-links">
+          <li>
+            <a href="#inicio" class="mobile-nav-link">
+              <span class="mobile-nav-icon"><i class="ph ph-house"></i></span>
+              <div class="mobile-nav-text">
+                <span class="mobile-nav-name">Inicio</span>
+                <span class="mobile-nav-desc">Portada principal</span>
+              </div>
+              <i class="ph ph-caret-right mobile-nav-arrow"></i>
+            </a>
+          </li>
+          <li>
+            <a href="#nosotros" class="mobile-nav-link">
+              <span class="mobile-nav-icon"><i class="ph ph-users-three"></i></span>
+              <div class="mobile-nav-text">
+                <span class="mobile-nav-name">Nosotros</span>
+                <span class="mobile-nav-desc">Misión y especialistas</span>
+              </div>
+              <i class="ph ph-caret-right mobile-nav-arrow"></i>
+            </a>
+          </li>
+          <li>
+            <a href="#servicios" class="mobile-nav-link">
+              <span class="mobile-nav-icon"><i class="ph ph-sparkle"></i></span>
+              <div class="mobile-nav-text">
+                <span class="mobile-nav-name">Servicios</span>
+                <span class="mobile-nav-desc">Ortodoncia, implantes y estética</span>
+              </div>
+              <i class="ph ph-caret-right mobile-nav-arrow"></i>
+            </a>
+          </li>
+          <li>
+            <a href="#opiniones" class="mobile-nav-link">
+              <span class="mobile-nav-icon"><i class="ph ph-star"></i></span>
+              <div class="mobile-nav-text">
+                <span class="mobile-nav-name">Reseñas</span>
+                <span class="mobile-nav-desc">Opiniones de pacientes</span>
+              </div>
+              <i class="ph ph-caret-right mobile-nav-arrow"></i>
+            </a>
+          </li>
+          <li>
+            <a href="#ubicacion" class="mobile-nav-link">
+              <span class="mobile-nav-icon"><i class="ph ph-map-pin"></i></span>
+              <div class="mobile-nav-text">
+                <span class="mobile-nav-name">Ubicación y contacto</span>
+                <span class="mobile-nav-desc">Terrazas del Valle #25603</span>
+              </div>
+              <i class="ph ph-caret-right mobile-nav-arrow"></i>
+            </a>
+          </li>
+          <li>
+            <a href="#preguntas" class="mobile-nav-link">
+              <span class="mobile-nav-icon"><i class="ph ph-question"></i></span>
+              <div class="mobile-nav-text">
+                <span class="mobile-nav-name">Preguntas frecuentes</span>
+                <span class="mobile-nav-desc">Horarios, costos y citas</span>
+              </div>
+              <i class="ph ph-caret-right mobile-nav-arrow"></i>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="mobile-nav-footer">
+        <a href="#agendar" class="btn btn-accent mobile-nav-cta">
+          <i class="ph ph-calendar-check"></i>
+          <span>Agendar cita de valoración</span>
+        </a>
+        <a href="https://wa.me/526648098071" target="_blank" rel="noopener noreferrer" class="mobile-nav-wa-link">
+          <i class="ph ph-whatsapp-logo"></i>
+          <span>WhatsApp directo: +52 664 809 8071</span>
+        </a>
+      </div>
+    </div>
   </div>
 
   <!-- Main Content Landmark (B10) -->
@@ -981,7 +1060,6 @@
             <li><a href="#opiniones" class="footer-link">Opiniones de Pacientes</a></li>
             <li><a href="#" id="open-privacy" class="footer-link">Aviso de Privacidad</a></li>
             <li><a href="#" id="open-terms" class="footer-link">Términos del Servicio</a></li>
-            <li><a href="404.html" class="footer-link">Página de Estado 404</a></li>
           </ul>
         </div>
 

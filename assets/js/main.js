@@ -87,32 +87,82 @@ function initScrollAnimations() {
 }
 
 /**
- * B7 Fluid Island Navigation & Mobile Menu Morph
+ * B7 Fluid Island Navigation & Mobile Menu Morph + Hide on scroll down
  */
 function initNavbarBehavior() {
   const toggleBtn = document.getElementById("nav-toggle");
   const mobileOverlay = document.getElementById("mobile-nav-overlay");
-  const mobileLinks = document.querySelectorAll(".mobile-nav-link");
+  const mobileCloseBtn = document.getElementById("mobile-nav-close");
+  const mobileLinks = document.querySelectorAll(".mobile-nav-link, .mobile-nav-cta");
   const desktopLinks = document.querySelectorAll(".nav-link");
   const sections = document.querySelectorAll("section[id]");
+  const navWrapper = document.querySelector(".nav-island-wrapper");
+
+  const closeMobileMenu = () => {
+    if (toggleBtn) toggleBtn.classList.remove("open");
+    if (mobileOverlay) mobileOverlay.classList.remove("open");
+    if (toggleBtn) toggleBtn.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+  };
+
+  const openMobileMenu = () => {
+    if (toggleBtn) toggleBtn.classList.add("open");
+    if (mobileOverlay) mobileOverlay.classList.add("open");
+    if (toggleBtn) toggleBtn.setAttribute("aria-expanded", "true");
+    document.body.style.overflow = "hidden";
+  };
 
   if (toggleBtn && mobileOverlay) {
     toggleBtn.addEventListener("click", () => {
-      const isOpen = toggleBtn.classList.toggle("open");
-      mobileOverlay.classList.toggle("open", isOpen);
-      toggleBtn.setAttribute("aria-expanded", isOpen);
-      document.body.style.overflow = isOpen ? "hidden" : "";
+      const isOpen = toggleBtn.classList.contains("open");
+      if (isOpen) {
+        closeMobileMenu();
+      } else {
+        openMobileMenu();
+      }
     });
 
+    if (mobileCloseBtn) {
+      mobileCloseBtn.addEventListener("click", closeMobileMenu);
+    }
+
     mobileLinks.forEach(link => {
-      link.addEventListener("click", () => {
-        toggleBtn.classList.remove("open");
-        mobileOverlay.classList.remove("open");
-        toggleBtn.setAttribute("aria-expanded", "false");
-        document.body.style.overflow = "";
-      });
+      link.addEventListener("click", closeMobileMenu);
+    });
+
+    mobileOverlay.addEventListener("click", (e) => {
+      if (e.target === mobileOverlay) {
+        closeMobileMenu();
+      }
     });
   }
+
+  // Hide on scroll down, show on scroll up (Comfortable mobile & desktop experience)
+  let lastScrollY = window.scrollY;
+  let isNavHidden = false;
+
+  window.addEventListener("scroll", () => {
+    const currentScrollY = window.scrollY;
+    const isMobileMenuOpen = toggleBtn && toggleBtn.classList.contains("open");
+
+    // Keep visible if mobile menu is open
+    if (isMobileMenuOpen) return;
+
+    if (currentScrollY > 70 && currentScrollY > lastScrollY + 6) {
+      // Scrolling down -> hide
+      if (!isNavHidden && navWrapper) {
+        navWrapper.classList.add("nav-hidden");
+        isNavHidden = true;
+      }
+    } else if (currentScrollY < lastScrollY - 6 || currentScrollY <= 30) {
+      // Scrolling up or top -> show
+      if (isNavHidden && navWrapper) {
+        navWrapper.classList.remove("nav-hidden");
+        isNavHidden = false;
+      }
+    }
+    lastScrollY = currentScrollY;
+  }, { passive: true });
 
   // Active section indicator using IntersectionObserver
   const navObserver = new IntersectionObserver((entries) => {
@@ -134,8 +184,7 @@ function initNavbarBehavior() {
 }
 
 /**
- * Dynamic Reviews Renderer & Carousel Controls
- * Replaces Meet The Dentists with patient reviews
+ * Dynamic Reviews Renderer & Carousel Controls with Auto-Slide, Hover Pause & Touch Pause
  */
 function initReviewsRenderer() {
   const reviewsContainer = document.getElementById("reviews-container");
@@ -192,17 +241,69 @@ function initReviewsRenderer() {
   const prevBtn = document.getElementById("reviews-prev");
   const nextBtn = document.getElementById("reviews-next");
 
-  if (prevBtn) {
-    prevBtn.addEventListener("click", () => {
+  // Auto-slide functionality (Every 4.5s)
+  let autoSlideTimer = null;
+  const slideDuration = 4500;
+
+  const startAutoSlide = () => {
+    stopAutoSlide();
+    autoSlideTimer = setInterval(() => {
+      currentIndex = (currentIndex + 1) % reviews.length;
+      renderReviews();
+    }, slideDuration);
+  };
+
+  const stopAutoSlide = () => {
+    if (autoSlideTimer) {
+      clearInterval(autoSlideTimer);
+      autoSlideTimer = null;
+    }
+  };
+
+  startAutoSlide();
+
+  // Pause on mouse hover & resume on leave
+  reviewsContainer.addEventListener("mouseenter", stopAutoSlide);
+  reviewsContainer.addEventListener("mouseleave", startAutoSlide);
+
+  // Pause on touch & support swipe
+  let touchStartX = 0;
+  reviewsContainer.addEventListener("touchstart", (e) => {
+    touchStartX = e.changedTouches[0].clientX;
+    stopAutoSlide();
+  }, { passive: true });
+
+  reviewsContainer.addEventListener("touchend", (e) => {
+    const touchEndX = e.changedTouches[0].clientX;
+    const diff = touchEndX - touchStartX;
+    if (diff < -45) {
+      // Swiped left -> next
+      currentIndex = (currentIndex + 1) % reviews.length;
+      renderReviews();
+    } else if (diff > 45) {
+      // Swiped right -> prev
       currentIndex = (currentIndex - 1 + reviews.length) % reviews.length;
       renderReviews();
+    }
+    // Resume auto-slide after 2.5 seconds
+    setTimeout(startAutoSlide, 2500);
+  }, { passive: true });
+
+  if (prevBtn) {
+    prevBtn.addEventListener("click", () => {
+      stopAutoSlide();
+      currentIndex = (currentIndex - 1 + reviews.length) % reviews.length;
+      renderReviews();
+      setTimeout(startAutoSlide, 3500);
     });
   }
 
   if (nextBtn) {
     nextBtn.addEventListener("click", () => {
+      stopAutoSlide();
       currentIndex = (currentIndex + 1) % reviews.length;
       renderReviews();
+      setTimeout(startAutoSlide, 3500);
     });
   }
 
